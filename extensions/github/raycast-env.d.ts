@@ -9,9 +9,9 @@
 
 type ExtensionPreferences = {
   /** Personal Access Token - Your GitHub personal access token. */
-  "token": string,
+  token: string
   /** Query - Search query to use for all commands. */
-  "query"?: string
+  query?: string
 }
 
 /** Preferences accessible in all the extension's commands */

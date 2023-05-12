@@ -7,11 +7,11 @@ import {
   List,
   showToast,
   Toast,
-} from "@raycast/api";
-import fetch from "cross-fetch";
-import { useState } from "react";
-import { timeAgo } from "../utils/format";
-import { truthy } from "../utils/truthy";
+} from "@raycast/api"
+import fetch from "cross-fetch"
+import { useState } from "react"
+import { timeAgo } from "../utils/format"
+import { truthy } from "../utils/truthy"
 
 const MUTATION = (type: string) => `
   mutation($id: ID!) {
@@ -19,7 +19,7 @@ const MUTATION = (type: string) => `
       clientMutationId
     }
   }
-`;
+`
 
 function getStateIcon(
   state: PullRequest["state"],
@@ -31,62 +31,62 @@ function getStateIcon(
     ? "icons/git-merge.png"
     : isDraft
     ? "icons/git-pull-request-draft.png"
-    : "icons/git-pull-request.png";
+    : "icons/git-pull-request.png"
 }
 
 function getStatusIcon(pull: PullRequest): Image.ImageLike | undefined {
-  const state = pull.commits.nodes[0].commit.status?.state;
+  const state = pull.commits.nodes[0].commit.status?.state
 
   return state === "PENDING"
     ? "icons/dot-fill.png"
     : state === "FAILURE"
     ? "icons/x.png"
-    : "icons/check.png";
+    : "icons/check.png"
 }
 
 export interface PullRequest {
-  id: string;
-  title: string;
-  url: string;
-  updatedAt: string;
-  state: "OPEN" | "CLOSED" | "MERGED";
-  isDraft: boolean;
+  id: string
+  title: string
+  url: string
+  updatedAt: string
+  state: "OPEN" | "CLOSED" | "MERGED"
+  isDraft: boolean
   repository: {
-    nameWithOwner: string;
-  };
+    nameWithOwner: string
+  }
   comments: {
-    totalCount: number;
-  };
+    totalCount: number
+  }
   commits: {
     nodes: {
       commit: {
         status?: {
-          state: "PENDING" | "SUCCESS" | "FAILURE";
-        };
-      };
-    }[];
-  };
+          state: "PENDING" | "SUCCESS" | "FAILURE"
+        }
+      }
+    }[]
+  }
 }
 
 export interface PullRequestListItemProps {
-  pull: PullRequest;
+  pull: PullRequest
 }
 
 export function PullRequestListItem({ pull }: PullRequestListItemProps) {
-  const [isDraft, setIsDraft] = useState(pull.isDraft);
+  const [isDraft, setIsDraft] = useState(pull.isDraft)
 
   async function mutate() {
     const type = isDraft
       ? "markPullRequestReadyForReview"
-      : "convertPullRequestToDraft";
+      : "convertPullRequestToDraft"
 
     const successMessage = isDraft
       ? "PR marked as ready"
-      : "PR converted to draft";
+      : "PR converted to draft"
 
     const failureMessage = isDraft
       ? "Failed to mark PR as ready"
-      : "Failed to convert PR to draft";
+      : "Failed to convert PR to draft"
 
     try {
       await fetch("https://api.github.com/graphql", {
@@ -98,13 +98,13 @@ export function PullRequestListItem({ pull }: PullRequestListItemProps) {
         headers: {
           Authorization: `Bearer ${getPreferenceValues().token}`,
         },
-      });
+      })
 
-      showToast(Toast.Style.Success, successMessage);
-      setIsDraft(!isDraft);
+      showToast(Toast.Style.Success, successMessage)
+      setIsDraft(!isDraft)
     } catch (error) {
-      console.error(error);
-      showToast(Toast.Style.Failure, failureMessage);
+      console.error(error)
+      showToast(Toast.Style.Failure, failureMessage)
     }
   }
 
@@ -139,5 +139,5 @@ export function PullRequestListItem({ pull }: PullRequestListItemProps) {
         </ActionPanel>
       }
     />
-  );
+  )
 }
