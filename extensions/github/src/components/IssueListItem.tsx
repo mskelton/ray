@@ -1,11 +1,11 @@
 import { Action, ActionPanel, Icon, List } from "@raycast/api"
-import { IssueSectionFragment } from "../generated/graphql"
+import { IssueListItemFragment } from "../generated/graphql"
 import { formatUpdatedAt } from "../utils/format"
 import { getIssueStatus } from "../utils/issues"
 import { truthy } from "../utils/truthy"
 
 export interface IssueListItemProps {
-  issue: IssueSectionFragment
+  issue: IssueListItemFragment
 }
 
 export function IssueListItem({ issue }: IssueListItemProps) {

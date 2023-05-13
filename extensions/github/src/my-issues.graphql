@@ -1,4 +1,4 @@
-fragment IssueSection on Issue {
+fragment IssueListItem on Issue {
   id
   number
   title
@@ -24,7 +24,7 @@ query MyIssues(
     nodes {
       ... on Issue {
         __typename
-        ...IssueSection
+        ...IssueListItem
       }
     }
   }
@@ -32,7 +32,7 @@ query MyIssues(
     nodes {
       ... on Issue {
         __typename
-        ...IssueSection
+        ...IssueListItem
       }
     }
   }

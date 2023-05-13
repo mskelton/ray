@@ -1,10 +1,9 @@
 import { List } from "@raycast/api"
-import { SearchRepoFragmentFragment } from "../generated/graphql"
-import { collectionCount } from "../utils/count"
-import { RepositoryListItem } from "./RepositoryListItem"
+import { RepositoryListItemFragment } from "../generated/graphql"
+import { formatCount } from "../utils/format"
 
 export interface RepositoryListSectionProps extends List.Section.Props {
-  repos: SearchRepoFragmentFragment[]
+  repos: RepositoryListItemFragment[]
 }
 
 export function RepositoryListSection({
@@ -13,7 +12,7 @@ export function RepositoryListSection({
 }: RepositoryListSectionProps) {
   return (
     <List.Section
-      subtitle={collectionCount(repos, "Repository", "Repositories")}
+      subtitle={formatCount(repos, "Repository", "Repositories")}
       {...props}
     >
       {repos.map((repo) => (

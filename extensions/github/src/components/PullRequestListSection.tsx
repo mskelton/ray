@@ -1,10 +1,10 @@
 import { List } from "@raycast/api"
-import { PullRequestSectionFragment } from "../generated/graphql"
-import { collectionCount } from "../utils/count"
+import { PullRequestListItemFragment } from "../generated/graphql"
+import { formatCount } from "../utils/format"
 import { PullRequestListItem } from "./PullRequestListItem"
 
 export interface PullRequestListSectionProps extends List.Section.Props {
-  pulls?: PullRequestSectionFragment[] | null
+  pulls?: PullRequestListItemFragment[] | null
 }
 
 export function PullRequestListSection({
@@ -12,7 +12,7 @@ export function PullRequestListSection({
   ...props
 }: PullRequestListSectionProps) {
   return (
-    <List.Section subtitle={collectionCount(pulls, "Pull Request")} {...props}>
+    <List.Section subtitle={formatCount(pulls, "Pull Request")} {...props}>
       {(pulls ?? []).map((pull) => (
         <PullRequestListItem key={pull.id} pull={pull} />
       ))}

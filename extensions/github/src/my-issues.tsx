@@ -1,11 +1,11 @@
 import { List } from "@raycast/api"
 import { IssueListSection } from "./components/IssueListSection"
 import View from "./components/View"
-import { IssueSectionFragment } from "./generated/graphql"
+import { IssueListItemFragment } from "./generated/graphql"
 import { useMyIssues } from "./hooks/useMyIssues"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const isIssue = (node: any): node is IssueSectionFragment =>
+const isIssue = (node: any): node is IssueListItemFragment =>
   node?.__typename === "Issue"
 
 function MyIssues() {

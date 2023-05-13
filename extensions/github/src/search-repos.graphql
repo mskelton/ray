@@ -1,4 +1,4 @@
-fragment SearchRepoFragment on Repository {
+fragment RepositoryListItem on Repository {
   id
   url
   name
@@ -20,7 +20,17 @@ query SearchReposQuery($query: String!) {
     nodes {
       ... on Repository {
         __typename
-        ...SearchRepoFragment
+        ...RepositoryListItem
+      }
+    }
+  }
+}
+
+query ListPullRequestsQuery($owner: String!, $name: String!) {
+  repository(owner: $owner, name: $name) {
+    pullRequests(last: 20) {
+      nodes {
+        ...PullRequestListItem
       }
     }
   }

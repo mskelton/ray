@@ -1,5 +1,5 @@
 import { Action, ActionPanel, Icon, List } from "@raycast/api"
-import { PullRequestSectionFragment } from "../generated/graphql"
+import { PullRequestListItemFragment } from "../generated/graphql"
 import { usePullDraftMutation } from "../hooks/usePullDraftMutation"
 import { formatUpdatedAt } from "../utils/format"
 import {
@@ -10,7 +10,7 @@ import {
 import { truthy } from "../utils/truthy"
 
 export interface PullRequestListItemProps {
-  pull: PullRequestSectionFragment
+  pull: PullRequestListItemFragment
 }
 
 export function PullRequestListItem({ pull }: PullRequestListItemProps) {

@@ -1,7 +1,7 @@
 import { Color, Icon } from "@raycast/api"
-import { PullRequestSectionFragment } from "../generated/graphql"
+import { PullRequestListItemFragment } from "../generated/graphql"
 
-export function getReviewDecision(pull: PullRequestSectionFragment) {
+export function getReviewDecision(pull: PullRequestListItemFragment) {
   switch (pull.reviewDecision) {
     case "REVIEW_REQUIRED":
       return { tag: { color: Color.Orange, value: "Review requested" } }
@@ -17,7 +17,7 @@ export function getReviewDecision(pull: PullRequestSectionFragment) {
   }
 }
 
-export function getCheckStatus(pull: PullRequestSectionFragment) {
+export function getCheckStatus(pull: PullRequestListItemFragment) {
   const state = pull.commits.nodes?.[0]?.commit.statusCheckRollup?.state
   if (!state) return null
 
@@ -46,7 +46,7 @@ export function getCheckStatus(pull: PullRequestSectionFragment) {
   }
 }
 
-export function getPullRequestStatus(pull: PullRequestSectionFragment) {
+export function getPullRequestStatus(pull: PullRequestListItemFragment) {
   switch (true) {
     case pull.merged:
       return {

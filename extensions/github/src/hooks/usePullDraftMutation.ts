@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { showToast, Toast } from "@raycast/api"
 import { getGitHubClient } from "../api/withGitHubClient"
-import { PullRequestSectionFragment } from "../generated/graphql"
+import { PullRequestListItemFragment } from "../generated/graphql"
 
 function getMessage(isDraft: boolean) {
   return isDraft
@@ -15,7 +15,7 @@ function getMessage(isDraft: boolean) {
       }
 }
 
-export function usePullDraftMutation(pull: PullRequestSectionFragment) {
+export function usePullDraftMutation(pull: PullRequestListItemFragment) {
   const { github } = getGitHubClient()
   const [isDraft, setIsDraft] = useState(pull.isDraft)
 

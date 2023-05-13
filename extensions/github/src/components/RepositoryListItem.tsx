@@ -1,12 +1,12 @@
-import { Action, ActionPanel, Color, Icon, Image, List } from "@raycast/api"
-import { SearchRepoFragmentFragment } from "../generated/graphql"
+import { Action, ActionPanel, Icon, Image, List } from "@raycast/api"
+import { RepositoryListItemFragment } from "../generated/graphql"
 import { matchColor } from "../utils/color"
 import { formatUpdatedAt } from "../utils/format"
 import { truthy } from "../utils/truthy"
 import { PullRequests } from "./PullRequests"
 
 export interface RepositoryListItemProps {
-  repo: SearchRepoFragmentFragment
+  repo: RepositoryListItemFragment
 }
 
 export function RepositoryListItem({ repo }: RepositoryListItemProps) {

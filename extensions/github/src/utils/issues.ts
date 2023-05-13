@@ -1,7 +1,7 @@
 import { Color } from "@raycast/api"
-import { IssueSectionFragment } from "../generated/graphql"
+import { IssueListItemFragment } from "../generated/graphql"
 
-export function getIssueStatus(issue: IssueSectionFragment) {
+export function getIssueStatus(issue: IssueListItemFragment) {
   switch (issue.stateReason) {
     case "NOT_PLANNED":
       return {
