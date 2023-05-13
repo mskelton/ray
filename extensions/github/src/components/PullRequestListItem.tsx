@@ -10,6 +10,7 @@ import {
   showToast,
   Toast,
 } from "@raycast/api"
+import { PullRequestSectionFragment } from "../generated/graphql"
 import { timeAgo } from "../utils/format"
 import { truthy } from "../utils/truthy"
 
@@ -22,7 +23,7 @@ const MUTATION = (type: string) => `
 `
 
 function getStateIcon(
-  state: PullRequest["state"],
+  state: PullRequestSectionFragment["state"],
   isDraft: boolean
 ): Image.ImageLike {
   return state === "CLOSED"
@@ -34,42 +35,20 @@ function getStateIcon(
     : "icons/git-pull-request.png"
 }
 
-function getStatusIcon(pull: PullRequest): Image.ImageLike | undefined {
-  const state = pull.commits.nodes[0].commit.status?.state
+function getStatusIcon(
+  pull: PullRequestSectionFragment
+): Image.ImageLike | undefined {
+  const state = pull.commits.nodes?.[0]?.commit.status?.state
 
-  return state === "PENDING"
-    ? "icons/dot-fill.png"
-    : state === "FAILURE"
+  return state === "SUCCESS" || state === "EXPECTED"
+    ? "icons/check.png"
+    : state === "FAILURE" || state === "ERROR"
     ? "icons/x.png"
-    : "icons/check.png"
-}
-
-export interface PullRequest {
-  comments: {
-    totalCount: number
-  }
-  commits: {
-    nodes: {
-      commit: {
-        status?: {
-          state: "FAILURE" | "PENDING" | "SUCCESS"
-        }
-      }
-    }[]
-  }
-  id: string
-  isDraft: boolean
-  repository: {
-    nameWithOwner: string
-  }
-  state: "CLOSED" | "MERGED" | "OPEN"
-  title: string
-  updatedAt: string
-  url: string
+    : "icons/dot-fill.png"
 }
 
 export interface PullRequestListItemProps {
-  pull: PullRequest
+  pull: PullRequestSectionFragment
 }
 
 export function PullRequestListItem({ pull }: PullRequestListItemProps) {

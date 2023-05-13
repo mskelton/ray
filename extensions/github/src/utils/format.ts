@@ -22,3 +22,12 @@ export function timeAgo(date: string) {
 
   return "Just now"
 }
+
+export function updatedAt(date: Date) {
+  const formatted = date.toLocaleString(undefined, {
+    dateStyle: "full",
+    timeStyle: "short",
+  })
+
+  return `Updated: ${formatted}`
+}

@@ -1,0 +1,35 @@
+fragment IssueSection on Issue {
+  id
+  number
+  title
+  url
+  updatedAt
+  state
+  comments {
+    totalCount
+  }
+}
+
+query MyIssues(
+  $openQuery: String!
+  $openCount: Int!
+  $closedQuery: String!
+  $closedCount: Int!
+) {
+  open: search(type: ISSUE, query: $openQuery, last: $openCount) {
+    nodes {
+      ... on Issue {
+        __typename
+        ...IssueSection
+      }
+    }
+  }
+  closed: search(type: ISSUE, query: $closedQuery, last: $closedCount) {
+    nodes {
+      ... on Issue {
+        __typename
+        ...IssueSection
+      }
+    }
+  }
+}

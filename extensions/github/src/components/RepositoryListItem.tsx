@@ -1,22 +1,10 @@
 import { Action, ActionPanel, Color, Icon, Image, List } from "@raycast/api"
+import { SearchRepoFragmentFragment } from "../generated/graphql"
 import { timeAgo } from "../utils/format"
 import { PullRequests } from "./PullRequests"
 
-export interface Repository {
-  id: string
-  name: string
-  openGraphImageUrl: string
-  owner: {
-    login: string
-  }
-  stargazerCount: number
-  updatedAt: string
-  url: string
-  viewerHasStarred: boolean
-}
-
 export interface RepositoryListItemProps {
-  repo: Repository
+  repo: SearchRepoFragmentFragment
 }
 
 export function RepositoryListItem({ repo }: RepositoryListItemProps) {

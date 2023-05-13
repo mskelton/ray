@@ -1,17 +1,17 @@
 import { List } from "@raycast/api"
-import { Repository, RepositoryListItem } from "./RepositoryListItem"
+import { SearchRepoFragmentFragment } from "../generated/graphql"
+import { RepositoryListItem } from "./RepositoryListItem"
 
-export interface RepositoryListSectionProps {
-  repos: Repository[]
-  title: string
+export interface RepositoryListSectionProps extends List.Section.Props {
+  repos: SearchRepoFragmentFragment[]
 }
 
 export function RepositoryListSection({
   repos,
-  title,
+  ...props
 }: RepositoryListSectionProps) {
   return (
-    <List.Section title={title}>
+    <List.Section {...props}>
       {repos.map((repo) => (
         <RepositoryListItem key={repo.id} repo={repo} />
       ))}

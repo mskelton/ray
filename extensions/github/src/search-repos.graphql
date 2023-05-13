@@ -1,0 +1,23 @@
+fragment SearchRepoFragment on Repository {
+  id
+  url
+  name
+  owner {
+    login
+  }
+  openGraphImageUrl
+  updatedAt
+  viewerHasStarred
+  stargazerCount
+}
+
+query SearchReposQuery($query: String!) {
+  search(first: 20, query: $query, type: REPOSITORY) {
+    nodes {
+      ... on Repository {
+        __typename
+        ...SearchRepoFragment
+      }
+    }
+  }
+}

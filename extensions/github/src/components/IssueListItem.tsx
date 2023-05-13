@@ -1,33 +1,21 @@
 import { Action, ActionPanel, Icon, Image, List } from "@raycast/api"
-import { timeAgo } from "../utils/format"
+import { IssueSectionFragment } from "../generated/graphql"
+import { updatedAt } from "../utils/format"
 import { truthy } from "../utils/truthy"
 
-function getStateIcon(issue: Issue): Image.ImageLike {
+function getStateIcon(issue: IssueSectionFragment): Image.ImageLike {
   return issue.state === "OPEN"
     ? { source: "icons/issue-opened.png" }
     : { source: "icons/issue-closed.png" }
 }
 
-export interface Issue {
-  author?: {
-    avatarUrl: string
-  }
-  comments: {
-    totalCount: number
-  }
-  id: string
-  number: number
-  state: "CLOSED" | "OPEN"
-  title: string
-  updatedAt: string
-  url: string
-}
-
 export interface IssueListItemProps {
-  issue: Issue
+  issue: IssueSectionFragment
 }
 
 export function IssueListItem({ issue }: IssueListItemProps) {
+  const date = new Date(issue.updatedAt)
+
   return (
     <List.Item
       id={issue.id}
@@ -40,7 +28,10 @@ export function IssueListItem({ issue }: IssueListItemProps) {
           icon: Icon.Bubble,
           text: issue.comments.totalCount + "",
         },
-        { text: timeAgo(issue.updatedAt) },
+        {
+          date,
+          tooltip: updatedAt(date),
+        },
       ].filter(truthy)}
       actions={
         <ActionPanel>

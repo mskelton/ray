@@ -1,54 +1,24 @@
 import { useState } from "react"
-import { getPreferenceValues, List } from "@raycast/api"
-import { Repository } from "./components/RepositoryListItem"
+import { List } from "@raycast/api"
 import { RepositoryListSection } from "./components/RepositoryListSection"
-import { Pager } from "./utils/types"
-import { useQuery } from "./utils/useQuery"
+import View from "./components/View"
+import { SearchRepoFragmentFragment } from "./generated/graphql"
+import { useRepoSearch } from "./hooks/useRepoSearch"
 
-interface QueryResponse {
-  search: Pager<Repository>
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isRepo = (node: any): node is SearchRepoFragmentFragment =>
+  node?.__typename === "Repository"
 
-const QUERY = `
-query SearchRepositoriesQuery($search: String!) {
-  search(first: 20, query: $search, type: REPOSITORY) {
-    nodes {
-      ... on Repository {
-        id
-        url
-        name
-        owner {
-          login
-        }
-        openGraphImageUrl
-        updatedAt
-        viewerHasStarred
-        stargazerCount
-      }
-    }
-  }
-}
-`
-
-export default function SearchRepositories() {
-  const preferences = getPreferenceValues()
-  const [search, setSearch] = useState("")
-  const query = `${preferences.query} ${search}`
-
-  const { data, isLoading } = useQuery<QueryResponse>({
-    enabled: !!search,
-    errorMessage: "Could not load repositories",
-    query: QUERY,
-    variables: { search: `is:repo ${query}` },
-  })
-
-  const repos = data?.search.nodes ?? []
+function SearchRepositories() {
+  const [query, setQuery] = useState("")
+  const { data, isLoading } = useRepoSearch(query)
+  const repos = data?.search.nodes?.filter(isRepo) ?? []
 
   return (
     <List
       isLoading={isLoading}
       searchBarPlaceholder="Filter repositories by name..."
-      onSearchTextChange={(search) => setSearch(search)}
+      onSearchTextChange={(search) => setQuery(search)}
       throttle
     >
       <RepositoryListSection
@@ -61,5 +31,13 @@ export default function SearchRepositories() {
         repos={repos.filter((repo) => !repo.viewerHasStarred)}
       />
     </List>
+  )
+}
+
+export default function Command() {
+  return (
+    <View>
+      <SearchRepositories />
+    </View>
   )
 }
