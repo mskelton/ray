@@ -2,12 +2,8 @@ import { useState } from "react"
 import { List } from "@raycast/api"
 import { RepositoryListSection } from "./components/RepositoryListSection"
 import View from "./components/View"
-import { RepositoryListItemFragment } from "./generated/graphql"
 import { useRepoSearch } from "./hooks/useRepoSearch"
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const isRepo = (node: any): node is RepositoryListItemFragment =>
-  node?.__typename === "Repository"
+import { isRepo } from "./utils/repos"
 
 function SearchRepositories() {
   const [query, setQuery] = useState("")

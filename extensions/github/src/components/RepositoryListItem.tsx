@@ -3,7 +3,7 @@ import { RepositoryListItemFragment } from "../generated/graphql"
 import { matchColor } from "../utils/color"
 import { formatUpdatedAt } from "../utils/format"
 import { truthy } from "../utils/truthy"
-import { PullRequests } from "./PullRequests"
+import { RepositoryPullRequests } from "./RepositoryPullRequests"
 
 export interface RepositoryListItemProps {
   repo: RepositoryListItemFragment
@@ -43,7 +43,7 @@ export function RepositoryListItem({ repo }: RepositoryListItemProps) {
           <Action.OpenInBrowser url={repo.url} />
           <Action.CopyToClipboard content={repo.url} title="Copy URL" />
           <Action.Push
-            target={<PullRequests repo={repo} />}
+            target={<RepositoryPullRequests repo={repo} />}
             shortcut={{ key: ".", modifiers: ["cmd"] }}
             icon={Icon.List}
             title="View Pull Requests"
