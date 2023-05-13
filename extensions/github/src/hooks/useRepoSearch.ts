@@ -1,10 +1,11 @@
 import { useCachedPromise } from "@raycast/utils"
-import { getPreferenceValues, showToast, Toast } from "@raycast/api"
+import { showToast, Toast } from "@raycast/api"
 import { getGitHubClient } from "../api/withGitHubClient"
+import getPreferences from "../utils/preferences"
 
 export function useRepoSearch(query: string) {
   const { github } = getGitHubClient()
-  const preferences = getPreferenceValues()
+  const preferences = getPreferences()
   const fullQuery = `is:repo ${preferences.query} ${query}`
 
   return useCachedPromise(

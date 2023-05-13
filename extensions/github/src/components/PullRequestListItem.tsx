@@ -1,105 +1,46 @@
-import fetch from "cross-fetch"
-import { useState } from "react"
-import {
-  Action,
-  ActionPanel,
-  getPreferenceValues,
-  Icon,
-  Image,
-  List,
-  showToast,
-  Toast,
-} from "@raycast/api"
+import { Action, ActionPanel, Icon, List } from "@raycast/api"
 import { PullRequestSectionFragment } from "../generated/graphql"
-import { timeAgo } from "../utils/format"
+import { usePullDraftMutation } from "../hooks/usePullDraftMutation"
+import { formatUpdatedAt } from "../utils/format"
+import {
+  getCheckStatus,
+  getPullRequestStatus,
+  getReviewDecision,
+} from "../utils/pulls"
 import { truthy } from "../utils/truthy"
-
-const MUTATION = (type: string) => `
-  mutation($id: ID!) {
-    ${type}(input: { pullRequestId: $id }) {
-      clientMutationId
-    }
-  }
-`
-
-function getStateIcon(
-  state: PullRequestSectionFragment["state"],
-  isDraft: boolean
-): Image.ImageLike {
-  return state === "CLOSED"
-    ? "icons/git-pull-request-closed.png"
-    : state === "MERGED"
-    ? "icons/git-merge.png"
-    : isDraft
-    ? "icons/git-pull-request-draft.png"
-    : "icons/git-pull-request.png"
-}
-
-function getStatusIcon(
-  pull: PullRequestSectionFragment
-): Image.ImageLike | undefined {
-  const state = pull.commits.nodes?.[0]?.commit.status?.state
-
-  return state === "SUCCESS" || state === "EXPECTED"
-    ? "icons/check.png"
-    : state === "FAILURE" || state === "ERROR"
-    ? "icons/x.png"
-    : "icons/dot-fill.png"
-}
 
 export interface PullRequestListItemProps {
   pull: PullRequestSectionFragment
 }
 
 export function PullRequestListItem({ pull }: PullRequestListItemProps) {
-  const [isDraft, setIsDraft] = useState(pull.isDraft)
-
-  async function mutate() {
-    const type = isDraft
-      ? "markPullRequestReadyForReview"
-      : "convertPullRequestToDraft"
-
-    const successMessage = isDraft
-      ? "PR marked as ready"
-      : "PR converted to draft"
-
-    const failureMessage = isDraft
-      ? "Failed to mark PR as ready"
-      : "Failed to convert PR to draft"
-
-    try {
-      await fetch("https://api.github.com/graphql", {
-        body: JSON.stringify({
-          query: MUTATION(type),
-          variables: { id: pull.id },
-        }),
-        headers: {
-          Authorization: `Bearer ${getPreferenceValues().token}`,
-        },
-        method: "POST",
-      })
-
-      showToast(Toast.Style.Success, successMessage)
-      setIsDraft(!isDraft)
-    } catch (error) {
-      console.error(error)
-      showToast(Toast.Style.Failure, failureMessage)
-    }
-  }
+  const [mutate, { isDraft }] = usePullDraftMutation(pull)
+  const status = getPullRequestStatus(pull)
+  const updatedAt = new Date(pull.updatedAt)
 
   return (
     <List.Item
       id={pull.id}
       title={pull.title}
-      subtitle={pull.repository.nameWithOwner}
-      icon={getStateIcon(pull.state, isDraft)}
+      subtitle={{
+        tooltip: `Repository: ${pull.repository.nameWithOwner}`,
+        value: `#${pull.number}`,
+      }}
+      icon={{
+        tooltip: `Status: ${status.text}`,
+        value: status.icon,
+      }}
       accessories={[
+        getCheckStatus(pull),
         pull.comments.totalCount && {
           icon: Icon.Bubble,
-          text: pull.comments.totalCount + "",
+          text: pull.comments.totalCount.toString(),
         },
-        { text: timeAgo(pull.updatedAt) },
-        { icon: getStatusIcon(pull) },
+        getReviewDecision(pull),
+        {
+          date: updatedAt,
+          tooltip: formatUpdatedAt(updatedAt),
+        },
       ].filter(truthy)}
       keywords={pull.repository.nameWithOwner.split("/")}
       actions={

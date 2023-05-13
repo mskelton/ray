@@ -5,6 +5,10 @@ fragment IssueSection on Issue {
   url
   updatedAt
   state
+  stateReason
+  repository {
+    nameWithOwner
+  }
   comments {
     totalCount
   }

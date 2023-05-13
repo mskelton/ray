@@ -3,8 +3,12 @@ fragment PullRequestSection on PullRequest {
   title
   url
   updatedAt
+  number
   state
   isDraft
+  merged
+  closed
+  reviewDecision
   repository {
     nameWithOwner
   }
@@ -14,7 +18,7 @@ fragment PullRequestSection on PullRequest {
   commits(last: 1) {
     nodes {
       commit {
-        status {
+        statusCheckRollup {
           state
         }
       }
@@ -43,5 +47,17 @@ query MyPullRequests(
         ...PullRequestSection
       }
     }
+  }
+}
+
+mutation ReadyForReview($id: ID!) {
+  markPullRequestReadyForReview(input: { pullRequestId: $id }) {
+    clientMutationId
+  }
+}
+
+mutation ConvertToDraft($id: ID!) {
+  convertPullRequestToDraft(input: { pullRequestId: $id }) {
+    clientMutationId
   }
 }

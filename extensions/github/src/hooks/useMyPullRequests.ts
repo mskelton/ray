@@ -1,16 +1,17 @@
 import { useCachedPromise } from "@raycast/utils"
-import { getPreferenceValues, showToast, Toast } from "@raycast/api"
+import { showToast, Toast } from "@raycast/api"
 import { getGitHubClient } from "../api/withGitHubClient"
+import getPreferences from "../utils/preferences"
 
 export function useMyPullRequests() {
   const { github } = getGitHubClient()
-  const preferences = getPreferenceValues()
+  const preferences = getPreferences()
   const baseQuery = `is:pr author:@me ${preferences.query}`
 
   return useCachedPromise(
     (query) => {
       return github.MyPullRequests({
-        closedCount: 5,
+        closedCount: 10,
         closedQuery: `${query} is:closed`,
         openCount: 20,
         openQuery: `${query} is:open`,

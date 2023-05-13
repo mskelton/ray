@@ -1,36 +1,35 @@
-import { Action, ActionPanel, Icon, Image, List } from "@raycast/api"
+import { Action, ActionPanel, Icon, List } from "@raycast/api"
 import { IssueSectionFragment } from "../generated/graphql"
-import { updatedAt } from "../utils/format"
+import { formatUpdatedAt } from "../utils/format"
+import { getIssueStatus } from "../utils/issues"
 import { truthy } from "../utils/truthy"
-
-function getStateIcon(issue: IssueSectionFragment): Image.ImageLike {
-  return issue.state === "OPEN"
-    ? { source: "icons/issue-opened.png" }
-    : { source: "icons/issue-closed.png" }
-}
 
 export interface IssueListItemProps {
   issue: IssueSectionFragment
 }
 
 export function IssueListItem({ issue }: IssueListItemProps) {
-  const date = new Date(issue.updatedAt)
+  const updatedAt = new Date(issue.updatedAt)
+  const status = getIssueStatus(issue)
 
   return (
     <List.Item
       id={issue.id}
       title={issue.title}
-      subtitle={`#${issue.number}`}
-      icon={getStateIcon(issue)}
-      keywords={[issue.number + ""]}
+      subtitle={{
+        tooltip: `Repository: ${issue.repository.nameWithOwner}`,
+        value: `#${issue.number}`,
+      }}
+      icon={{ tooltip: `Status: ${status.text}`, value: status.icon }}
+      keywords={[issue.number.toString()]}
       accessories={[
         issue.comments.totalCount && {
           icon: Icon.Bubble,
           text: issue.comments.totalCount + "",
         },
         {
-          date,
-          tooltip: updatedAt(date),
+          date: updatedAt,
+          tooltip: formatUpdatedAt(updatedAt),
         },
       ].filter(truthy)}
       actions={

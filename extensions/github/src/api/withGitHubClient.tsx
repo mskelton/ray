@@ -2,8 +2,8 @@ import { GraphQLClient } from "graphql-request"
 import { Octokit } from "octokit"
 import { useMemo, useState } from "react"
 import { Detail, environment, MenuBarExtra } from "@raycast/api"
-import { getPreferenceValues } from "@raycast/api"
 import { getSdk } from "../generated/graphql"
+import getPreferences from "../utils/preferences"
 import { authorize } from "./oauth"
 
 let github: ReturnType<typeof getSdk> | null = null
@@ -15,11 +15,9 @@ export function withGithubClient(component: JSX.Element) {
   // we use a `useMemo` instead of `useEffect` to avoid a render
   useMemo(() => {
     ;(async function () {
-      const { personalAccessToken } = getPreferenceValues()
-      const token = personalAccessToken || (await authorize())
-      const authorization = personalAccessToken
-        ? `token ${token}`
-        : `bearer ${token}`
+      const { token: pat } = getPreferences()
+      const token = pat || (await authorize())
+      const authorization = pat ? `token ${token}` : `bearer ${token}`
 
       github = getSdk(
         new GraphQLClient("https://api.github.com/graphql", {

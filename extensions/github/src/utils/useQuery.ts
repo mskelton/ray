@@ -1,5 +1,6 @@
 import { useFetch } from "@raycast/utils"
-import { getPreferenceValues, showToast, Toast } from "@raycast/api"
+import { showToast, Toast } from "@raycast/api"
+import getPreferences from "./preferences"
 
 type Variables = Record<string, unknown>
 
@@ -23,7 +24,7 @@ export function useQuery<T>({
   query,
   variables,
 }: UseQueryOptions) {
-  const preferences = getPreferenceValues()
+  const preferences = getPreferences()
 
   return useFetch<T>("https://api.github.com/graphql", {
     body: JSON.stringify({ query, variables }),
