@@ -49,11 +49,11 @@ interface PullRequestsProps {
 
 export function PullRequests({ repo }: PullRequestsProps) {
   const { data, isLoading } = useQuery<QueryResponse>({
-    query: QUERY,
     errorMessage: "Could not load repositories",
+    query: QUERY,
     variables: {
-      owner: repo.owner.login,
       name: repo.name,
+      owner: repo.owner.login,
     },
   })
 

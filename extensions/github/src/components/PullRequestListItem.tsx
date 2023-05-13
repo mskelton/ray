@@ -1,3 +1,5 @@
+import fetch from "cross-fetch"
+import { useState } from "react"
 import {
   Action,
   ActionPanel,
@@ -8,8 +10,6 @@ import {
   showToast,
   Toast,
 } from "@raycast/api"
-import fetch from "cross-fetch"
-import { useState } from "react"
 import { timeAgo } from "../utils/format"
 import { truthy } from "../utils/truthy"
 
@@ -45,15 +45,6 @@ function getStatusIcon(pull: PullRequest): Image.ImageLike | undefined {
 }
 
 export interface PullRequest {
-  id: string
-  title: string
-  url: string
-  updatedAt: string
-  state: "OPEN" | "CLOSED" | "MERGED"
-  isDraft: boolean
-  repository: {
-    nameWithOwner: string
-  }
   comments: {
     totalCount: number
   }
@@ -61,11 +52,20 @@ export interface PullRequest {
     nodes: {
       commit: {
         status?: {
-          state: "PENDING" | "SUCCESS" | "FAILURE"
+          state: "FAILURE" | "PENDING" | "SUCCESS"
         }
       }
     }[]
   }
+  id: string
+  isDraft: boolean
+  repository: {
+    nameWithOwner: string
+  }
+  state: "CLOSED" | "MERGED" | "OPEN"
+  title: string
+  updatedAt: string
+  url: string
 }
 
 export interface PullRequestListItemProps {
@@ -90,7 +90,6 @@ export function PullRequestListItem({ pull }: PullRequestListItemProps) {
 
     try {
       await fetch("https://api.github.com/graphql", {
-        method: "POST",
         body: JSON.stringify({
           query: MUTATION(type),
           variables: { id: pull.id },
@@ -98,6 +97,7 @@ export function PullRequestListItem({ pull }: PullRequestListItemProps) {
         headers: {
           Authorization: `Bearer ${getPreferenceValues().token}`,
         },
+        method: "POST",
       })
 
       showToast(Toast.Style.Success, successMessage)
@@ -116,8 +116,8 @@ export function PullRequestListItem({ pull }: PullRequestListItemProps) {
       icon={getStateIcon(pull.state, isDraft)}
       accessories={[
         pull.comments.totalCount && {
-          text: pull.comments.totalCount + "",
           icon: Icon.Bubble,
+          text: pull.comments.totalCount + "",
         },
         { text: timeAgo(pull.updatedAt) },
         { icon: getStatusIcon(pull) },
@@ -131,7 +131,7 @@ export function PullRequestListItem({ pull }: PullRequestListItemProps) {
           {pull.state === "OPEN" && (
             <Action
               icon={isDraft ? Icon.Eye : Icon.EyeDisabled}
-              shortcut={{ modifiers: ["cmd"], key: "." }}
+              shortcut={{ key: ".", modifiers: ["cmd"] }}
               title={isDraft ? "Ready for Review" : "Mark as Draft"}
               onAction={mutate}
             />

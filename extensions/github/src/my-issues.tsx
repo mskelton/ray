@@ -33,13 +33,13 @@ export default function MyIssues() {
   const baseQuery = `is:issue author:@me ${preferences.query}`
 
   const openIssues = useQuery<QueryResponse>({
-    query: QUERY,
     errorMessage: "Could not load open issues",
+    query: QUERY,
     variables: { last: 20, query: `${baseQuery} is:open` },
   })
   const closedIssues = useQuery<QueryResponse>({
-    query: QUERY,
     errorMessage: "Could not load closed issues",
+    query: QUERY,
     variables: { last: 5, query: `${baseQuery} is:closed` },
   })
 

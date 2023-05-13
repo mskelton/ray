@@ -1,5 +1,5 @@
-import { getPreferenceValues, List } from "@raycast/api"
 import { useState } from "react"
+import { getPreferenceValues, List } from "@raycast/api"
 import { Repository } from "./components/RepositoryListItem"
 import { RepositoryListSection } from "./components/RepositoryListSection"
 import { Pager } from "./utils/types"
@@ -36,10 +36,10 @@ export default function SearchRepositories() {
   const query = `${preferences.query} ${search}`
 
   const { data, isLoading } = useQuery<QueryResponse>({
-    query: QUERY,
-    errorMessage: "Could not load repositories",
-    variables: { search: `is:repo ${query}` },
     enabled: !!search,
+    errorMessage: "Could not load repositories",
+    query: QUERY,
+    variables: { search: `is:repo ${query}` },
   })
 
   const repos = data?.search.nodes ?? []

@@ -9,18 +9,18 @@ function getStateIcon(issue: Issue): Image.ImageLike {
 }
 
 export interface Issue {
-  id: string
-  number: number
-  title: string
-  url: string
-  updatedAt: string
-  state: "OPEN" | "CLOSED"
   author?: {
     avatarUrl: string
   }
   comments: {
     totalCount: number
   }
+  id: string
+  number: number
+  state: "CLOSED" | "OPEN"
+  title: string
+  updatedAt: string
+  url: string
 }
 
 export interface IssueListItemProps {
@@ -37,8 +37,8 @@ export function IssueListItem({ issue }: IssueListItemProps) {
       keywords={[issue.number + ""]}
       accessories={[
         issue.comments.totalCount && {
-          text: issue.comments.totalCount + "",
           icon: Icon.Bubble,
+          text: issue.comments.totalCount + "",
         },
         { text: timeAgo(issue.updatedAt) },
       ].filter(truthy)}

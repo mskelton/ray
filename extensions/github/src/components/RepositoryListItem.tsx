@@ -4,15 +4,15 @@ import { PullRequests } from "./PullRequests"
 
 export interface Repository {
   id: string
-  url: string
   name: string
+  openGraphImageUrl: string
   owner: {
     login: string
   }
-  openGraphImageUrl: string
-  updatedAt: string
-  viewerHasStarred: boolean
   stargazerCount: number
+  updatedAt: string
+  url: string
+  viewerHasStarred: boolean
 }
 
 export interface RepositoryListItemProps {
@@ -25,14 +25,14 @@ export function RepositoryListItem({ repo }: RepositoryListItemProps) {
       id={repo.id}
       title={repo.name}
       subtitle={repo.owner.login}
-      icon={{ source: repo.openGraphImageUrl, mask: Image.Mask.Circle }}
+      icon={{ mask: Image.Mask.Circle, source: repo.openGraphImageUrl }}
       accessories={[
         {
-          text: repo.stargazerCount + "",
           icon: {
             source: Icon.Star,
             tintColor: repo.viewerHasStarred ? Color.Yellow : undefined,
           },
+          text: repo.stargazerCount + "",
         },
         { text: timeAgo(repo.updatedAt) },
       ]}
@@ -43,7 +43,7 @@ export function RepositoryListItem({ repo }: RepositoryListItemProps) {
           <Action.CopyToClipboard content={repo.url} title="Copy URL" />
           <Action.Push
             target={<PullRequests repo={repo} />}
-            shortcut={{ modifiers: ["cmd"], key: "." }}
+            shortcut={{ key: ".", modifiers: ["cmd"] }}
             icon={Icon.List}
             title="View Pull Requests"
           />

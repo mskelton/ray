@@ -1,0 +1,47 @@
+fragment PullRequestSection on PullRequest {
+  id
+  title
+  url
+  updatedAt
+  state
+  isDraft
+  repository {
+    nameWithOwner
+  }
+  comments {
+    totalCount
+  }
+  commits(last: 1) {
+    nodes {
+      commit {
+        status {
+          state
+        }
+      }
+    }
+  }
+}
+
+query MyPullRequests(
+  $openQuery: String!
+  $openCount: Int!
+  $closedQuery: String!
+  $closedCount: Int!
+) {
+  open: search(type: ISSUE, query: $openQuery, last: $openCount) {
+    nodes {
+      ... on PullRequest {
+        __typename
+        ...PullRequestSection
+      }
+    }
+  }
+  closed: search(type: ISSUE, query: $closedQuery, last: $closedCount) {
+    nodes {
+      ... on PullRequest {
+        __typename
+        ...PullRequestSection
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
-import { getPreferenceValues, showToast, Toast } from "@raycast/api"
 import { useFetch } from "@raycast/utils"
+import { getPreferenceValues, showToast, Toast } from "@raycast/api"
 
 type Variables = Record<string, unknown>
 
@@ -18,32 +18,32 @@ interface UseQueryOptions {
 }
 
 export function useQuery<T>({
-  query,
-  errorMessage,
-  variables,
   enabled = true,
+  errorMessage,
+  query,
+  variables,
 }: UseQueryOptions) {
   const preferences = getPreferenceValues()
 
   return useFetch<T>("https://api.github.com/graphql", {
-    method: "POST",
-    execute: enabled,
     body: JSON.stringify({ query, variables }),
+    execute: enabled,
     headers: {
       Authorization: `Bearer ${preferences.token}`,
     },
     keepPreviousData: true,
+    method: "POST",
+    onError() {
+      showToast(Toast.Style.Failure, errorMessage)
+    },
     async parseResponse(response) {
-      const { errors, data } = (await response.json()) as GraphQLResponse<T>
+      const { data, errors } = (await response.json()) as GraphQLResponse<T>
 
       if (errors?.length) {
         throw new Error(errors[0].message)
       }
 
       return data
-    },
-    onError() {
-      showToast(Toast.Style.Failure, errorMessage)
     },
   })
 }

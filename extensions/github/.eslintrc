@@ -1,0 +1,5 @@
+{
+  "root": true,
+  "extends": ["@mskelton", "@mskelton/eslint-config/typescript", "@raycast"],
+  "ignorePatterns": ["*.graphql", "**/generated/**"]
+}

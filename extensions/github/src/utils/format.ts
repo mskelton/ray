@@ -1,12 +1,12 @@
 export function timeAgo(date: string) {
   const formatter = new Intl.RelativeTimeFormat("en")
   const ranges = {
-    years: 3600 * 24 * 365,
-    months: 3600 * 24 * 30,
-    weeks: 3600 * 24 * 7,
     days: 3600 * 24,
     hours: 3600,
     minutes: 60,
+    months: 3600 * 24 * 30,
+    weeks: 3600 * 24 * 7,
+    years: 3600 * 24 * 365,
   }
 
   const secondsElapsed = (new Date(date).getTime() - Date.now()) / 1000

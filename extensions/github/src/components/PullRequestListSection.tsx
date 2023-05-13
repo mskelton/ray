@@ -1,8 +1,9 @@
 import { List } from "@raycast/api"
-import { PullRequest, PullRequestListItem } from "./PullRequestListItem"
+import { PullRequestSectionFragment } from "../generated/graphql"
+import { PullRequestListItem } from "./PullRequestListItem"
 
 export interface PullRequestListSectionProps {
-  pulls: PullRequest[]
+  pulls?: (PullRequestSectionFragment | null | undefined)[] | null
   title: string
 }
 
