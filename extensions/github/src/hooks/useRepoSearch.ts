@@ -9,7 +9,7 @@ export function useRepoSearch(query: string) {
   const fullQuery = `is:repo ${preferences.query} ${query}`
 
   return useCachedPromise(
-    (query) => github.SearchReposQuery({ query }),
+    (query) => github.SearchRepos({ query }),
     [fullQuery],
     {
       execute: !!fullQuery,

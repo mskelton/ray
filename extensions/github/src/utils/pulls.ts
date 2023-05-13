@@ -1,6 +1,10 @@
 import { Color, Icon } from "@raycast/api"
 import { PullRequestListItemFragment } from "../generated/graphql"
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const isPR = (node: any): node is PullRequestListItemFragment =>
+  node?.__typename === "PullRequest"
+
 export function getReviewDecision(pull: PullRequestListItemFragment) {
   switch (pull.reviewDecision) {
     case "REVIEW_REQUIRED":

@@ -15,7 +15,7 @@ fragment RepositoryListItem on Repository {
   }
 }
 
-query SearchReposQuery($query: String!) {
+query SearchRepos($query: String!) {
   search(first: 20, query: $query, type: REPOSITORY) {
     nodes {
       ... on Repository {
@@ -26,7 +26,7 @@ query SearchReposQuery($query: String!) {
   }
 }
 
-query ListPullRequestsQuery($owner: String!, $name: String!) {
+query RepoPullRequests($owner: String!, $name: String!) {
   repository(owner: $owner, name: $name) {
     pullRequests(last: 20) {
       nodes {

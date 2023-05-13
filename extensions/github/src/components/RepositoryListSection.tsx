@@ -1,6 +1,7 @@
 import { List } from "@raycast/api"
 import { RepositoryListItemFragment } from "../generated/graphql"
 import { formatCount } from "../utils/format"
+import { RepositoryListItem } from "./RepositoryListItem"
 
 export interface RepositoryListSectionProps extends List.Section.Props {
   repos: RepositoryListItemFragment[]

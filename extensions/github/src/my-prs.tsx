@@ -1,12 +1,8 @@
 import { List } from "@raycast/api"
 import { PullRequestListSection } from "./components/PullRequestListSection"
 import View from "./components/View"
-import { PullRequestListItemFragment } from "./generated/graphql"
 import { useMyPullRequests } from "./hooks/useMyPullRequests"
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const isPR = (node: any): node is PullRequestListItemFragment =>
-  node?.__typename === "PullRequest"
+import { isPR } from "./utils/pulls"
 
 function MyPullRequests() {
   const { data, isLoading } = useMyPullRequests()

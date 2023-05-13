@@ -1,22 +1,16 @@
 import { List } from "@raycast/api"
 import { RepositoryListItemFragment } from "../generated/graphql"
+import { useRepoPullRequests } from "../hooks/useRepoPullRequests"
+import { isPR } from "../utils/pulls"
 import { PullRequestListSection } from "./PullRequestListSection"
 
-interface PullRequestsProps {
+interface RepositoryPullRequestsProps {
   repo: RepositoryListItemFragment
 }
 
-export function PullRequests({ repo }: PullRequestsProps) {
-  const { data, isLoading } = useQuery<QueryResponse>({
-    errorMessage: "Could not load repositories",
-    query: QUERY,
-    variables: {
-      name: repo.name,
-      owner: repo.owner.login,
-    },
-  })
-
-  const pulls = data?.repository.pullRequests.nodes ?? []
+export function RepositoryPullRequests({ repo }: RepositoryPullRequestsProps) {
+  const { data, isLoading } = useRepoPullRequests(repo)
+  const pulls = data?.repository?.pullRequests.nodes?.filter(isPR) ?? []
 
   return (
     <List
