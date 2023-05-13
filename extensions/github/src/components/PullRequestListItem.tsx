@@ -15,7 +15,7 @@ export interface PullRequestListItemProps {
 
 export function PullRequestListItem({ pull }: PullRequestListItemProps) {
   const [mutate, { isDraft }] = usePullDraftMutation(pull)
-  const status = getPullRequestStatus(pull)
+  const status = getPullRequestStatus(pull, isDraft)
   const updatedAt = new Date(pull.updatedAt)
 
   return (

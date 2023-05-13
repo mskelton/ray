@@ -50,7 +50,10 @@ export function getCheckStatus(pull: PullRequestListItemFragment) {
   }
 }
 
-export function getPullRequestStatus(pull: PullRequestListItemFragment) {
+export function getPullRequestStatus(
+  pull: PullRequestListItemFragment,
+  isDraft: boolean
+) {
   switch (true) {
     case pull.merged:
       return {
@@ -64,7 +67,7 @@ export function getPullRequestStatus(pull: PullRequestListItemFragment) {
         text: "Closed",
       }
 
-    case pull.isDraft:
+    case isDraft:
       return {
         icon: { source: "pr-draft.svg", tintColor: Color.SecondaryText },
         text: "Draft",
