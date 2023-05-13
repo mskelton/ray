@@ -1,4 +1,5 @@
 fragment PullRequestListItem on PullRequest {
+  __typename
   id
   title
   url
@@ -35,7 +36,6 @@ query MyPullRequests(
   open: search(type: ISSUE, query: $openQuery, last: $openCount) {
     nodes {
       ... on PullRequest {
-        __typename
         ...PullRequestListItem
       }
     }
@@ -43,7 +43,6 @@ query MyPullRequests(
   closed: search(type: ISSUE, query: $closedQuery, last: $closedCount) {
     nodes {
       ... on PullRequest {
-        __typename
         ...PullRequestListItem
       }
     }

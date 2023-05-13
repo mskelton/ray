@@ -1,4 +1,5 @@
 fragment IssueListItem on Issue {
+  __typename
   id
   number
   title
@@ -23,7 +24,6 @@ query MyIssues(
   open: search(type: ISSUE, query: $openQuery, last: $openCount) {
     nodes {
       ... on Issue {
-        __typename
         ...IssueListItem
       }
     }
@@ -31,7 +31,6 @@ query MyIssues(
   closed: search(type: ISSUE, query: $closedQuery, last: $closedCount) {
     nodes {
       ... on Issue {
-        __typename
         ...IssueListItem
       }
     }

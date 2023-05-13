@@ -11,6 +11,7 @@ interface RepositoryPullRequestsProps {
 export function RepositoryPullRequests({ repo }: RepositoryPullRequestsProps) {
   const { data, isLoading } = useRepoPullRequests(repo)
   const pulls = data?.repository?.pullRequests.nodes?.filter(isPR) ?? []
+  console.log(pulls)
 
   return (
     <List

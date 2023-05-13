@@ -1,8 +1,9 @@
-import { Action, ActionPanel, Icon, Image, List } from "@raycast/api"
+import { Action, ActionPanel, Color, Icon, List } from "@raycast/api"
 import { RepositoryListItemFragment } from "../generated/graphql"
 import { matchColor } from "../utils/color"
 import { formatUpdatedAt } from "../utils/format"
 import { truthy } from "../utils/truthy"
+import { getGitHubUser } from "../utils/user"
 import { RepositoryPullRequests } from "./RepositoryPullRequests"
 
 export interface RepositoryListItemProps {
@@ -11,21 +12,26 @@ export interface RepositoryListItemProps {
 
 export function RepositoryListItem({ repo }: RepositoryListItemProps) {
   const updatedAt = new Date(repo.updatedAt)
+  const owner = getGitHubUser(repo.owner)
 
   return (
     <List.Item
       id={repo.id}
       title={repo.name}
-      subtitle={{
-        tooltip: `Number of Stars: ${repo.stargazerCount}`,
-        value: repo.stargazerCount.toString(),
-      }}
-      icon={{
-        mask: Image.Mask.Circle,
-        source: repo.owner.avatarUrl,
-        tooltip: repo.owner.login,
-      }}
+      subtitle={
+        repo.stargazerCount
+          ? {
+              tooltip: `Number of Stars: ${repo.stargazerCount}`,
+              value: repo.stargazerCount.toString(),
+            }
+          : undefined
+      }
+      icon={owner.icon}
       accessories={[
+        repo.viewerHasStarred && {
+          icon: { source: Icon.Star, tintColor: Color.Yellow },
+          tooltip: "You have starred this repository",
+        },
         repo.primaryLanguage && {
           tag: {
             color: matchColor(repo.primaryLanguage.color),

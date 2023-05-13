@@ -1,4 +1,5 @@
 fragment RepositoryListItem on Repository {
+  __typename
   id
   url
   name
@@ -19,7 +20,6 @@ query SearchRepos($query: String!) {
   search(first: 20, query: $query, type: REPOSITORY) {
     nodes {
       ... on Repository {
-        __typename
         ...RepositoryListItem
       }
     }
