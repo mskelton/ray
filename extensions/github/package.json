@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "ray build -e dist",
-    "dev": "concurrently \"ray develop\" \"pnpm generate --watch\"",
+    "dev": "concurrently \"ray develop\" \"npm run generate -- --watch\"",
     "lint": "ray lint",
     "generate": "graphql-codegen --config codegen.ts"
   },
@@ -57,6 +57,7 @@
     "cross-fetch": "^3.1.5",
     "graphql": "^16.6.0",
     "graphql-request": "^5.1.0",
+    "nearest-color": "^0.4.4",
     "octokit": "^2.0.14"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-export function countCollection(
+export function collectionCount(
   collection: unknown[] | null | undefined,
   singular: string,
   plural?: string

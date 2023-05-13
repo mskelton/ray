@@ -1,6 +1,6 @@
 import { List } from "@raycast/api"
 import { IssueSectionFragment } from "../generated/graphql"
-import { countCollection } from "../utils/count"
+import { collectionCount } from "../utils/count"
 import { IssueListItem } from "./IssueListItem"
 
 export interface IssueListSectionProps extends List.Section.Props {
@@ -9,7 +9,7 @@ export interface IssueListSectionProps extends List.Section.Props {
 
 export function IssueListSection({ issues, ...props }: IssueListSectionProps) {
   return (
-    <List.Section subtitle={countCollection(issues, "Issue")} {...props}>
+    <List.Section subtitle={collectionCount(issues, "Issue")} {...props}>
       {(issues ?? []).map((issue) => (
         <IssueListItem key={issue.id} issue={issue} />
       ))}

@@ -1,5 +1,6 @@
 import { List } from "@raycast/api"
 import { SearchRepoFragmentFragment } from "../generated/graphql"
+import { collectionCount } from "../utils/count"
 import { RepositoryListItem } from "./RepositoryListItem"
 
 export interface RepositoryListSectionProps extends List.Section.Props {
@@ -11,7 +12,10 @@ export function RepositoryListSection({
   ...props
 }: RepositoryListSectionProps) {
   return (
-    <List.Section {...props}>
+    <List.Section
+      subtitle={collectionCount(repos, "Repository", "Repositories")}
+      {...props}
+    >
       {repos.map((repo) => (
         <RepositoryListItem key={repo.id} repo={repo} />
       ))}

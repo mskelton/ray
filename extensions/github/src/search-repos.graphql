@@ -3,12 +3,16 @@ fragment SearchRepoFragment on Repository {
   url
   name
   owner {
+    avatarUrl
     login
   }
-  openGraphImageUrl
   updatedAt
   viewerHasStarred
   stargazerCount
+  primaryLanguage {
+    color
+    name
+  }
 }
 
 query SearchReposQuery($query: String!) {

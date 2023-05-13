@@ -1,6 +1,8 @@
 import { Action, ActionPanel, Color, Icon, Image, List } from "@raycast/api"
 import { SearchRepoFragmentFragment } from "../generated/graphql"
-import { timeAgo } from "../utils/format"
+import { matchColor } from "../utils/color"
+import { formatUpdatedAt } from "../utils/format"
+import { truthy } from "../utils/truthy"
 import { PullRequests } from "./PullRequests"
 
 export interface RepositoryListItemProps {
@@ -8,22 +10,33 @@ export interface RepositoryListItemProps {
 }
 
 export function RepositoryListItem({ repo }: RepositoryListItemProps) {
+  const updatedAt = new Date(repo.updatedAt)
+
   return (
     <List.Item
       id={repo.id}
       title={repo.name}
-      subtitle={repo.owner.login}
-      icon={{ mask: Image.Mask.Circle, source: repo.openGraphImageUrl }}
+      subtitle={{
+        tooltip: `Number of Stars: ${repo.stargazerCount}`,
+        value: repo.stargazerCount.toString(),
+      }}
+      icon={{
+        mask: Image.Mask.Circle,
+        source: repo.owner.avatarUrl,
+        tooltip: repo.owner.login,
+      }}
       accessories={[
-        {
-          icon: {
-            source: Icon.Star,
-            tintColor: repo.viewerHasStarred ? Color.Yellow : undefined,
+        repo.primaryLanguage && {
+          tag: {
+            color: matchColor(repo.primaryLanguage.color),
+            value: repo.primaryLanguage.name,
           },
-          text: repo.stargazerCount + "",
         },
-        { text: timeAgo(repo.updatedAt) },
-      ]}
+        {
+          date: updatedAt,
+          tooltip: formatUpdatedAt(updatedAt),
+        },
+      ].filter(truthy)}
       keywords={[repo.owner.login]}
       actions={
         <ActionPanel>
