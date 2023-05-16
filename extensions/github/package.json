@@ -4,7 +4,7 @@
   "author": "mskelton",
   "license": "MIT",
   "scripts": {
-    "build": "ray build -e dist",
+    "build": "npm run generate && ray build -e dist",
     "dev": "concurrently \"ray develop\" \"npm run generate -- --watch\"",
     "lint": "ray lint",
     "generate": "graphql-codegen --config codegen.ts"
