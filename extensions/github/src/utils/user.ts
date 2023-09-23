@@ -11,12 +11,15 @@ export function getGitHubUser(user?: User | null) {
     return { icon: Icon.Person, text: "Unknown" }
   }
 
+  const text = (user.name ? user.name : user.login) ?? "-"
   return {
     icon: {
-      mask: Image.Mask.Circle,
-      source: user?.avatarUrl,
-      tooltip: (user.name ? user.name : user.login) ?? "-",
+      tooltip: text,
+      value: {
+        mask: Image.Mask.Circle,
+        source: user?.avatarUrl,
+      },
     },
-    text: (user.name ? user.name : user.login) ?? "-",
+    text,
   }
 }
