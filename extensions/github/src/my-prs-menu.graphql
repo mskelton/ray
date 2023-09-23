@@ -1,0 +1,29 @@
+fragment PullRequestSummary on PullRequest {
+  __typename
+  id
+  permalink
+  title
+  number
+  repository {
+    nameWithOwner
+  }
+  commits(last: 1) {
+    nodes {
+      commit {
+        statusCheckRollup {
+          state
+        }
+      }
+    }
+  }
+}
+
+query searchPullRequests($query: String!, $count: Int!) {
+  search(type: ISSUE, query: $query, last: $count) {
+    nodes {
+      ... on PullRequest {
+        ...PullRequestSummary
+      }
+    }
+  }
+}

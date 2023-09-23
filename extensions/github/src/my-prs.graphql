@@ -27,7 +27,7 @@ fragment PullRequestListItem on PullRequest {
   }
 }
 
-query MyPullRequests(
+query myPullRequests(
   $openQuery: String!
   $openCount: Int!
   $closedQuery: String!

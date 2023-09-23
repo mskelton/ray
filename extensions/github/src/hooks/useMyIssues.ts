@@ -10,7 +10,7 @@ export function useMyIssues() {
 
   return useCachedPromise(
     (query) => {
-      return github.MyIssues({
+      return github.myIssues({
         closedCount: 10,
         closedQuery: `${query} is:closed`,
         openCount: 20,

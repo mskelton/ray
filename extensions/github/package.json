@@ -33,6 +33,32 @@
       "subtitle": "GitHub",
       "description": "View issues you have created.",
       "mode": "view"
+    },
+    {
+      "name": "my-prs-menu",
+      "title": "My Pull Requests Menu Bar",
+      "description": "Display My Pull Request in the Menu Bar",
+      "mode": "menu-bar",
+      "interval": "10m",
+      "preferences": [
+        {
+          "name": "maxitems",
+          "description": "Maximum Pull Requests shown",
+          "type": "textfield",
+          "required": false,
+          "title": "Max. Pull Requests",
+          "placeholder": "10"
+        },
+        {
+          "name": "showtext",
+          "description": "Show Pull Requests Count",
+          "type": "checkbox",
+          "required": false,
+          "label": "Show Count",
+          "title": "Appearance",
+          "default": true
+        }
+      ]
     }
   ],
   "preferences": [

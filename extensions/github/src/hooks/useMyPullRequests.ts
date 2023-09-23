@@ -10,7 +10,7 @@ export function useMyPullRequests() {
 
   return useCachedPromise(
     (query) => {
-      return github.MyPullRequests({
+      return github.myPullRequests({
         closedCount: 10,
         closedQuery: `${query} is:closed`,
         openCount: 20,
