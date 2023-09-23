@@ -21,7 +21,7 @@ import getPreferences from "./utils/preferences"
 
 async function launchMyPullRequestsCommand(): Promise<void> {
   return launchCommand({
-    name: "my-prs",
+    name: "my-pull-requests",
     type: LaunchType.UserInitiated,
   })
 }
@@ -36,7 +36,7 @@ function getMaxPullRequestsPreference(): number {
   return getBoundedPreferenceNumber({ name: "maxitems" })
 }
 
-function getCheckStateEmoji(pr: PullRequestSummaryFragment): string | null {
+function getIcon(pr: PullRequestSummaryFragment): string | null {
   const checkState = pr.commits.nodes
     ? pr.commits.nodes[0]?.commit.statusCheckRollup?.state
     : null
@@ -53,14 +53,6 @@ function getCheckStateEmoji(pr: PullRequestSummaryFragment): string | null {
   }
 }
 
-function joinArray(
-  ar: (string | null | undefined)[],
-  separator: string
-): string {
-  const d = ar?.filter((e) => e)
-  return d?.join(separator) || ""
-}
-
 function OpenPullRequestMenu() {
   const { github } = getGitHubClient()
   const preferences = getPreferences()
@@ -69,8 +61,7 @@ function OpenPullRequestMenu() {
     async () => {
       const result = await github.searchPullRequests({
         count: 50,
-        query: `is:pr is:open author:@me archived:false`,
-        // query: `is:pr is:open author:@me archived:false ${preferences.query}`,
+        query: `is:pr is:open author:@me archived:false ${preferences.query}`,
       })
 
       return result.search.nodes?.map(
@@ -83,7 +74,7 @@ function OpenPullRequestMenu() {
 
   return (
     <MenuBarRoot
-      title={displayTitlePreference() ? `${data?.length}` : undefined}
+      title={displayTitlePreference() && data ? `${data.length}` : undefined}
       icon={{ source: "pr.svg", tintColor: Color.PrimaryText }}
       isLoading={isLoading}
       tooltip="GitHub My Open Pull Requests"
@@ -110,10 +101,7 @@ function OpenPullRequestMenu() {
         {data?.map((item) => (
           <MenuBarItem
             key={item.id}
-            title={`#${item.number} ${item.title} ${joinArray(
-              [getCheckStateEmoji(item)],
-              ""
-            )}`}
+            title={`#${item.number} ${item.title} ${getIcon(item) || ""}`}
             icon="pull-request.svg"
             tooltip={item.repository.nameWithOwner}
             onAction={() => open(item.permalink)}

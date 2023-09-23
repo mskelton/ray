@@ -21,7 +21,7 @@
       "mode": "view"
     },
     {
-      "name": "my-prs",
+      "name": "my-pull-requests",
       "title": "My Pull Requests",
       "subtitle": "GitHub",
       "description": "View pull requests you have opened.",
@@ -35,7 +35,7 @@
       "mode": "view"
     },
     {
-      "name": "my-prs-menu",
+      "name": "my-pull-requests-menu",
       "title": "My Pull Requests Menu Bar",
       "description": "Display My Pull Request in the Menu Bar",
       "mode": "menu-bar",
