@@ -52,7 +52,7 @@ export function getCheckStatus(pull: PullRequestListItemFragment) {
 
 export function getPullRequestStatus(
   pull: PullRequestListItemFragment,
-  isDraft: boolean
+  isDraft: boolean,
 ) {
   switch (true) {
     case pull.merged:

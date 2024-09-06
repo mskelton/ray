@@ -22,5 +22,5 @@ const map: Record<string, Color> = {
 }
 
 export function matchColor(color: string | null): Color | null {
-  return color ? map[nearestColor(color).name] ?? null : null
+  return color ? (map[nearestColor(color).name] ?? null) : null
 }

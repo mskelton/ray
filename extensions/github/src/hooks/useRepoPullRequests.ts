@@ -13,6 +13,6 @@ export function useRepoPullRequests(repo: RepositoryListItemFragment) {
       onError() {
         showToast(Toast.Style.Failure, "Could not load pull requests")
       },
-    }
+    },
   )
 }

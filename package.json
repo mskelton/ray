@@ -1,9 +1,9 @@
 {
-  "name": "@mskelton/raycast",
   "scripts": {
-    "format": "prettier --write ."
+    "fmt": "prettier --write .",
+    "fmt:check": "prettier --check ."
   },
   "devDependencies": {
-    "prettier": "^2.8.8"
+    "prettier": "^3.3.3"
   }
 }

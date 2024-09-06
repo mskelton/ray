@@ -22,6 +22,6 @@ export function useMyPullRequests() {
       onError() {
         showToast(Toast.Style.Failure, "Could not load pull requests")
       },
-    }
+    },
   )
 }

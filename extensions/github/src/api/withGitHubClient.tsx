@@ -22,7 +22,7 @@ export function withGithubClient(component: JSX.Element) {
       github = getSdk(
         new GraphQLClient("https://api.github.com/graphql", {
           headers: { authorization },
-        })
+        }),
       )
 
       octokit = new Octokit({ auth: token })
@@ -38,7 +38,7 @@ export function withGithubClient(component: JSX.Element) {
       return <MenuBarExtra isLoading />
     } else {
       console.error(
-        "`withGithubClient` is only supported in `view` and `menu-bar` mode"
+        "`withGithubClient` is only supported in `view` and `menu-bar` mode",
       )
 
       return null

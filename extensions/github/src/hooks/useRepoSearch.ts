@@ -16,6 +16,6 @@ export function useRepoSearch(query: string) {
       onError() {
         showToast(Toast.Style.Failure, "Could not load repositories")
       },
-    }
+    },
   )
 }

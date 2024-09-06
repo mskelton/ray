@@ -59,6 +59,24 @@
           "default": true
         }
       ]
+    },
+    {
+      "name": "my-notifications-menu",
+      "title": "My Notifications Menu Bar",
+      "description": "Display Notifications in the Menu Bar",
+      "mode": "menu-bar",
+      "interval": "5m",
+      "preferences": [
+        {
+          "name": "showCount",
+          "description": "Show Notifications Count",
+          "type": "checkbox",
+          "required": false,
+          "label": "Show Count",
+          "title": "Appearance",
+          "default": true
+        }
+      ]
     }
   ],
   "preferences": [

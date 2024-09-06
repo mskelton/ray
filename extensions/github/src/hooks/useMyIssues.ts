@@ -22,6 +22,6 @@ export function useMyIssues() {
       onError() {
         showToast(Toast.Style.Failure, "Could not load issues")
       },
-    }
+    },
   )
 }

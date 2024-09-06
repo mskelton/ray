@@ -78,7 +78,7 @@ export function MenuBarItem(props: {
 
 function shownElements(
   elements?: ReactNode,
-  maxElements?: number
+  maxElements?: number,
 ): { hidden: number; shown?: ReactNode } {
   if (!maxElements) {
     return { hidden: 0, shown: elements }
@@ -98,7 +98,7 @@ function shownElements(
 
 function joinNonEmpty(
   parts?: (string | undefined)[],
-  separator?: string | undefined
+  separator?: string | undefined,
 ): string | undefined {
   if (!parts || parts.length <= 0) {
     return undefined
@@ -116,7 +116,7 @@ export function MenuBarSection(props: {
 }): JSX.Element | null {
   const title = joinNonEmpty(
     [props.title, props.subtitle].filter((e) => e),
-    " "
+    " ",
   )
   const { hidden, shown } = shownElements(props.children, props.maxChildren)
   const empty = shown === undefined || (shown as object[]).length <= 0
@@ -138,7 +138,7 @@ export function MenuBarSubmenu(props: {
   const title =
     joinNonEmpty(
       [props.title, props.subtitle].filter((e) => e),
-      " "
+      " ",
     ) || ""
   return (
     <MenuBarExtra.Submenu title={title} icon={props.icon}>

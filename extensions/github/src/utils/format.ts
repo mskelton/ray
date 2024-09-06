@@ -10,7 +10,7 @@ export function formatUpdatedAt(date: Date) {
 export function formatCount(
   collection: unknown[] | null | undefined,
   singular: string,
-  plural?: string
+  plural?: string,
 ) {
   const count = collection?.length ?? 0
 
