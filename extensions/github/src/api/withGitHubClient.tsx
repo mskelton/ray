@@ -1,4 +1,5 @@
 import { GraphQLClient } from "graphql-request"
+import fetch from "node-fetch"
 import { Octokit } from "octokit"
 import { useMemo, useState } from "react"
 import { Detail, environment, MenuBarExtra } from "@raycast/api"
@@ -25,7 +26,7 @@ export function withGithubClient(component: JSX.Element) {
         }),
       )
 
-      octokit = new Octokit({ auth: token })
+      octokit = new Octokit({ auth: token, request: { fetch } })
       forceRerender(x + 1)
     })()
   }, [])

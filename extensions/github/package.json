@@ -61,8 +61,8 @@
       ]
     },
     {
-      "name": "my-notifications-menu",
-      "title": "My Notifications Menu Bar",
+      "name": "notifications-menu",
+      "title": "Notifications Menu Bar",
       "description": "Display Notifications in the Menu Bar",
       "mode": "menu-bar",
       "interval": "5m",
@@ -104,7 +104,8 @@
     "graphql": "^16.6.0",
     "graphql-request": "^5.1.0",
     "nearest-color": "^0.4.4",
-    "octokit": "^2.0.14"
+    "node-fetch": "^3.3.2",
+    "octokit": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",
